@@ -11,8 +11,6 @@ info:
 servers:
 - url: https://virtserver.swaggerhub.com/shearertink/nijiiro/1.0.0
   description: SwaggerHub API Auto Mocking
-- url: https://virtserver.swaggerhub.com/shearertink/enterprise/1.0.0
-  description: NIJIIRO API Server
 tags:
 - name: Enterprise
   description: 企業情報管理業務
