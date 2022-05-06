@@ -1,0 +1,513 @@
+openapi: 3.0.0
+info:
+  title: NIJIIRO APIs
+  description: NIJIIRO APIs
+  contact:
+    email: shearertink@gmail.com
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  version: 1.0.0
+servers:
+- url: https://virtserver.swaggerhub.com/shearertink/nijiiro/1.0.0
+  description: SwaggerHub API Auto Mocking
+- url: https://virtserver.swaggerhub.com/shearertink/enterprise/1.0.0
+  description: NIJIIRO API Server
+tags:
+- name: Enterprise
+  description: 企業情報管理業務
+- name: Staff
+  description: 派遣者情報管理業務
+- name: Agent
+  description: 仲介業者情報管理業務
+paths:
+  /enterprise:
+    put:
+      tags:
+      - Enterprise
+      summary: 企業情報編集
+      description: 企業情報編集
+      operationId: updateEnterprise
+      requestBody:
+        description: 編集する企業情報
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Enterprise'
+      responses:
+        "400":
+          description: Invalid ID supplied
+          content: {}
+        "404":
+          description: Item not found
+          content: {}
+        "405":
+          description: Validation exception
+          content: {}
+    post:
+      tags:
+      - Enterprise
+      summary: 企業情報作成
+      description: 企業情報作成
+      operationId: addEnterprise
+      requestBody:
+        description: 作成する企業情報
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Enterprise'
+      responses:
+        "201":
+          description: item created
+        "400":
+          description: "invalid input, object invalid"
+        "409":
+          description: an existing item already exists
+  /enterprise/{id}:
+    get:
+      tags:
+      - Enterprise
+      summary: 企業情報取得
+      description: 指定されたIDの企業情報を取得
+      operationId: getEnterprise
+      parameters:
+      - name: id
+        in: path
+        description: 企業ID
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: 検索結果
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Enterprise'
+        "400":
+          description: bad input parameter
+    delete:
+      tags:
+      - Enterprise
+      summary: 企業情報削除
+      description: 指定されたIDの企業情報を削除する。
+      operationId: deleteEnterprise
+      parameters:
+      - name: id
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "400":
+          description: Invalid ID supplied
+          content: {}
+        "404":
+          description: Pet not found
+          content: {}
+  /enterprise/query:
+    get:
+      tags:
+      - Enterprise
+      summary: 企業情報検索
+      description: 指定された条件で企業情報を検索
+      operationId: searchEnterprise
+      parameters:
+      - name: searchString
+        in: query
+        description: 検索文字列
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: offset
+        in: query
+        description: ページングする際のoffset
+        required: false
+        style: form
+        explode: true
+        schema:
+          minimum: 0
+          type: integer
+          format: int32
+      - name: limit
+        in: query
+        description: 最大件数
+        required: false
+        style: form
+        explode: true
+        schema:
+          maximum: 500
+          minimum: 0
+          type: integer
+          format: int32
+      responses:
+        "200":
+          description: 検索結果
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Enterprise'
+        "400":
+          description: bad input parameter
+  /staff:
+    put:
+      tags:
+      - Staff
+      summary: 派遣者情報編集
+      description: 派遣者情報編集
+      operationId: updateStaff
+      requestBody:
+        description: 編集する派遣者情報
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Staff'
+      responses:
+        "400":
+          description: Invalid ID supplied
+          content: {}
+        "404":
+          description: Item not found
+          content: {}
+        "405":
+          description: Validation exception
+          content: {}
+    post:
+      tags:
+      - Staff
+      summary: 派遣者情報作成
+      description: 派遣者情報作成
+      operationId: addStaff
+      requestBody:
+        description: 作成する派遣者情報
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Staff'
+      responses:
+        "201":
+          description: item created
+        "400":
+          description: "invalid input, object invalid"
+        "409":
+          description: an existing item already exists
+  /staff/{id}:
+    get:
+      tags:
+      - Staff
+      summary: 派遣者情報取得
+      description: 指定されたIDの派遣者情報を取得
+      operationId: getStaff
+      parameters:
+      - name: id
+        in: path
+        description: 派遣者ID
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: 検索結果
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Staff'
+        "400":
+          description: bad input parameter
+    delete:
+      tags:
+      - Staff
+      summary: 派遣者情報削除
+      description: 指定されたIDの派遣者情報を削除する。
+      operationId: deleteStaff
+      parameters:
+      - name: id
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "400":
+          description: Invalid ID supplied
+          content: {}
+        "404":
+          description: Pet not found
+          content: {}
+  /staff/query:
+    get:
+      tags:
+      - Staff
+      summary: 派遣者情報検索
+      description: 指定された条件で派遣者情報を検索
+      operationId: searchStaff
+      parameters:
+      - name: searchString
+        in: query
+        description: 検索文字列
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: offset
+        in: query
+        description: ページングする際のoffset
+        required: false
+        style: form
+        explode: true
+        schema:
+          minimum: 0
+          type: integer
+          format: int32
+      - name: limit
+        in: query
+        description: 最大件数
+        required: false
+        style: form
+        explode: true
+        schema:
+          maximum: 500
+          minimum: 0
+          type: integer
+          format: int32
+      responses:
+        "200":
+          description: 検索結果
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Staff'
+        "400":
+          description: bad input parameter
+  /agent:
+    put:
+      tags:
+      - Agent
+      summary: 仲介者情報編集
+      description: 仲介者情報編集
+      operationId: updateAgent
+      requestBody:
+        description: 編集する仲介者情報
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Staff'
+      responses:
+        "400":
+          description: Invalid ID supplied
+          content: {}
+        "404":
+          description: Item not found
+          content: {}
+        "405":
+          description: Validation exception
+          content: {}
+    post:
+      tags:
+      - Agent
+      summary: 仲介者情報作成
+      description: 仲介者情報作成
+      operationId: addAgent
+      requestBody:
+        description: 作成する仲介者情報
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Agent'
+      responses:
+        "201":
+          description: item created
+        "400":
+          description: "invalid input, object invalid"
+        "409":
+          description: an existing item already exists
+components:
+  schemas:
+    Enterprise:
+      required:
+      - address
+      - contactEmail
+      - contactName
+      - contactPhoneNumber
+      - createDate
+      - id
+      - industry
+      - introduction
+      - name
+      - parentId
+      - updateDate
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: d290f1ee-6c54-4b01-90e6-d701748f0851
+        name:
+          type: string
+          example: ローソン池袋駅店
+        parentId:
+          type: string
+          format: uuid
+          example: d290f1ee-6c54-4b01-90e6-d701748f0851
+        industry:
+          type: string
+          example: コンビニ
+        contactName:
+          type: string
+          example: ローソン太郎
+        contactPhoneNumber:
+          type: string
+          example: "09012345678"
+        contactEmail:
+          type: string
+          format: email
+          example: enterprise@example.com
+        website:
+          type: string
+          format: uri
+          example: https://example-enterprise.com
+        introduction:
+          type: string
+          example: |
+            池袋駅駅より徒歩１分,
+            24時間営業。
+        createDate:
+          type: string
+          format: date-time
+          example: 2016-08-29T09:12:33.001Z
+        updateDate:
+          type: string
+          format: date-time
+          example: 2016-08-29T09:12:33.001Z
+    Staff:
+      required:
+      - age
+      - contactEmail
+      - id
+      - name
+      - sex
+      type: object
+      properties:
+        id:
+          type: string
+          example: "1000000001"
+        name:
+          type: string
+          example: 派遣太郎
+        sex:
+          type: string
+          example: M/F
+        age:
+          maximum: 100
+          minimum: 0
+          type: integer
+          format: int32
+          example: 28
+        contactPhoneNumber:
+          type: string
+          example: "09012345678"
+        contactEmail:
+          type: string
+          format: email
+          example: hakentaro@example.com
+        address:
+          type: string
+          example: 千葉市中央区幸町１－２－３－１２３４
+        nationality:
+          type: string
+          description: 国籍
+          example: 中国
+        educations:
+          type: array
+          description: 教育背景
+          items:
+            $ref: '#/components/schemas/Education'
+        certifications:
+          type: array
+          description: 資格
+          items:
+            $ref: '#/components/schemas/Certification'
+    Education:
+      type: object
+      properties:
+        fromYm:
+          type: string
+          description: YYYY-MM
+          example: 2001-09
+        toYm:
+          type: string
+          description: YYYY-MM
+          example: 2005-08
+        where:
+          type: string
+          example: example collage
+        forWhat:
+          type: string
+          example: 大学教育（工学）
+        level:
+          type: string
+          example: 学士
+    Certification:
+      required:
+      - id
+      type: object
+      properties:
+        id:
+          type: string
+          example: "1001"
+        name:
+          type: string
+          example: 日本語能力資格
+        level:
+          type: string
+          example: １級
+    Agent:
+      required:
+      - contactEmail
+      - contactName
+      - contactPhoneNumber
+      - id
+      - name
+      type: object
+      properties:
+        id:
+          type: string
+          example: "100000001"
+        name:
+          type: string
+          example: さくら派遣サービス
+        contactName:
+          type: string
+          example: ローソン太郎
+        contactPhoneNumber:
+          type: string
+          example: "09012345678"
+        contactEmail:
+          type: string
+          format: email
+          example: enterprise@example.com
+        website:
+          type: string
+          format: uri
+          example: https://example-agent.com
+        introduction:
+          type: string
+          example: 留学生のためのジョブ紹介サービス。
