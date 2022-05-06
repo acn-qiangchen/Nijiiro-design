@@ -301,11 +301,11 @@ paths:
     put:
       tags:
       - Agent
-      summary: 仲介者情報編集
-      description: 仲介者情報編集
+      summary: 仲介業者情報編集
+      description: 仲介業者情報編集
       operationId: updateAgent
       requestBody:
-        description: 編集する仲介者情報
+        description: 編集する仲介業者情報
         content:
           application/json:
             schema:
@@ -323,11 +323,11 @@ paths:
     post:
       tags:
       - Agent
-      summary: 仲介者情報作成
-      description: 仲介者情報作成
+      summary: 仲介業者情報作成
+      description: 仲介業者情報作成
       operationId: addAgent
       requestBody:
-        description: 作成する仲介者情報
+        description: 作成する仲介業者情報
         content:
           application/json:
             schema:
@@ -339,6 +339,102 @@ paths:
           description: "invalid input, object invalid"
         "409":
           description: an existing item already exists
+  /agent/{id}:
+    get:
+      tags:
+      - Agent
+      summary: 仲介業者情報取得
+      description: 指定されたIDの仲介業者情報を取得
+      operationId: getAgent
+      parameters:
+      - name: id
+        in: path
+        description: 仲介業者ID
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: 検索結果
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Agent'
+        "400":
+          description: bad input parameter
+    delete:
+      tags:
+      - Agent
+      summary: 仲介業者情報削除
+      description: 指定されたIDの仲介業者情報を削除する。
+      operationId: deleteAgent
+      parameters:
+      - name: id
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "400":
+          description: Invalid ID supplied
+          content: {}
+        "404":
+          description: Pet not found
+          content: {}
+  /agent/query:
+    get:
+      tags:
+      - Agent
+      summary: 仲介業者情報検索
+      description: 指定された条件で仲介業者情報を検索
+      operationId: searchAgent
+      parameters:
+      - name: searchString
+        in: query
+        description: 検索文字列
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: offset
+        in: query
+        description: ページングする際のoffset
+        required: false
+        style: form
+        explode: true
+        schema:
+          minimum: 0
+          type: integer
+          format: int32
+      - name: limit
+        in: query
+        description: 最大件数
+        required: false
+        style: form
+        explode: true
+        schema:
+          maximum: 500
+          minimum: 0
+          type: integer
+          format: int32
+      responses:
+        "200":
+          description: 検索結果
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Agent'
+        "400":
+          description: bad input parameter
 components:
   schemas:
     Enterprise:
@@ -458,7 +554,7 @@ components:
           example: 2005-08
         where:
           type: string
-          example: example collage
+          example: example college
         forWhat:
           type: string
           example: 大学教育（工学）
